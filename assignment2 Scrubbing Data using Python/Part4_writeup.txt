@@ -1,0 +1,15 @@
+Brief Summary of My Work
+
+
+Write a paragraph or more about your data source; why you selected this particular dataset; why you believe this is a credible data source; and what this dataset could be used for. Be sure to include the URL in this report.
+
+Include at least one additional paragraph to describe the test(s) that you did in your spreadsheet (whether graphs or statistics or both) to verify that you believe these are data that can be readily used for study. If you needed to make specific changes to the data (e.g. removing temperatures of 999.9 or values of '****' or other custom changes, please be sure to note these changes and your reasoning.
+
+
+
+
+
+
+I selected this dataset because it offered a very complete view of naming choices in the US. I retrieved the data from data.gov, which links to this site on the the Social Security website: https://www.ssa.gov/oact/babynames/background.html, providing some background on the collection of this dataset. Looking at name data can offer an insight into the culture and influences on the United States over a given period of time, especially when analyzing a change over time in a certain name's popularity.
+
+In analyzing the data in a spreadsheet, I faced several difficulties in the sheer number of names and the great variation in their popularity, ranging from 50,000 people to 5 people. This made it somewhat difficult to graph given my lack of Excel expertise. To adjust for this, I only took names used 500 times or more to make it more usable. Some other changes I made were to remove names like "baby" or "unknown."

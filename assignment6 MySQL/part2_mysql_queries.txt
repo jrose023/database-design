@@ -1,0 +1,164 @@
+﻿-- 1 --------------------------------
+
+SELECT stu_name, stu_major, stu_netid, stu_phone 
+FROM students 
+ORDER BY stu_name;
+
++----------+--------------------------------+-----------+--------------+
+| stu_name | stu_major                      | stu_netid | stu_phone    |
++----------+--------------------------------+-----------+--------------+
+| Jaad     | Math                           | jbp892    | 823-456-7890 |
+| Jack     | Media, Culture & Communication | jvf036    | 423-456-7890 |
+| Jane     | Liberal Studies                | jps359    | 323-456-7890 |
+| Jill     | Economics                      | jpt347    | 523-456-7890 |
+| John     | Computer Science               | jde294    | 123-456-7890 |
+| Josh     | Film                           | jso026    | 223-456-7890 |
+| Judy     | Math                           | jid351    | 623-456-7890 |
+| Julz     | Computer Science               | jar892    | 723-456-7890 |
++----------+--------------------------------+-----------+--------------+
+
+
+
+
+
+-- 2 --------------------------------
+
+SELECT club_name, club_url, club_location 
+FROM clubs 
+ORDER BY club_name;
++----------------------+----------+---------------+
+| club_name            | club_url | club_location |
++----------------------+----------+---------------+
+| Comm Club            | cmc.com  | Steinhardt    |
+| Delta Kappa Alpha    | dka.com  | Vanderbilt    |
+| Economics Club       | ecc.com  | KMEC          |
+| NYU Programming Team | npt.com  | Courant       |
+| Poltics Club         | lsp.com  | 726 Broadway  |
+| WinC                 | wic.com  | Leslie eLab   |
++----------------------+----------+---------------+
+
+
+
+
+
+-- 3 --------------------------------
+
+SELECT club_name, (SELECT COUNT(*) FROM club_members WHERE club_title = club_name) AS count 
+FROM clubs 
+ORDER BY count 
+DESC LIMIT 5;
++----------------------+-------+
+| club_name            | count |
++----------------------+-------+
+| WinC                 |     2 |
+| NYU Programming Team |     1 |
+| Economics Club       |     1 |
+| Delta Kappa Alpha    |     1 |
+| Comm Club            |     1 |
++----------------------+-------+
+
+
+
+
+
+-- 4 --------------------------------
+-- take the total time elapsed per student, divide it into 2 semesters (6 months) multiply it by the club dues
+-- not sure this was the idea behind the question, but here it is anyway ¯\_(ツ)_/¯
+SELECT club_title, 
+SUM( (IFNULL(DATEDIFF(member_resig_date,member_join_date), DATEDIFF('2017-11-11',member_join_date)) ) /182.5 *(SELECT club_dues FROM clubs WHERE club_name = club_title) )
+  as dues   
+FROM club_members  
+GROUP BY club_title 
+ORDER BY dues DESC;
++----------------------+-----------+
+| club_title           | dues      |
++----------------------+-----------+
+| Delta Kappa Alpha    | 4002.7397 |
+| Economics Club       |  800.5479 |
+| WinC                 |  400.5480 |
+| NYU Programming Team |   80.1096 |
+| Comm Club            |    0.0000 |
+| Politics Club        |      NULL |
++----------------------+-----------+
+
+
+
+
+
+-- 5 --------------------------------
+SELECT club_dept, AVG(club_dues) 
+FROM clubs GROUP BY club_dept 
+ORDER BY AVG(club_dues) DESC;
++---------------------------------+----------------+
+| club_dept                       | AVG(club_dues) |
++---------------------------------+----------------+
+| Tisch                           |       500.0000 |
+| Economics                       |       100.0000 |
+| Computer Science                |        35.0000 |
+| Media, Culture & Communications |         0.0000 |
+| Liberal Studies                 |         0.0000 |
++---------------------------------+----------------+
+
+
+
+
+
+-- 6 --------------------------------
+
+SELECT CONCAT(member_name,": ",COUNT(member_name)," Club Memberships") as Memberships 
+FROM club_members 
+GROUP BY member_name;
++--------------------------+
+| Memberships              |
++--------------------------+
+| Jack: 1 Club Memberships |
+| Jane: 1 Club Memberships |
+| Jill: 1 Club Memberships |
+| John: 1 Club Memberships |
+| Josh: 1 Club Memberships |
+| Judy: 1 Club Memberships |
+| Julz: 2 Club Memberships |
++--------------------------+
+
+
+
+
+
+
+-- 7 --------------------------------
+SELECT s.stu_name, c.member_name FROM club_members c  
+RIGHT JOIN students s  ON s.stu_name = c.member_name 
+WHERE c.member_name IS NULL 
+ORDER BY c.member_name DESC;
++----------+-------------+
+| stu_name | member_name |
++----------+-------------+
+| Jaad     | NULL        |
++----------+-------------+
+
+
+
+-- 8 --------------------------------
+-- this script lists the students, their majors, the clubs theyre in, and the departments to which the clubs belong, to compare the majors vs club departments
+SELECT s.stu_name, s.stu_major, c.club_title,cl.club_dept 
+FROM students s 
+INNER JOIN club_members c ON s.stu_name = c.member_name 
+INNER JOIN clubs cl ON c.club_title = cl.club_name 
+ORDER BY s.stu_name;
++----------+--------------------------------+----------------------+---------------------------------+
+| stu_name | stu_major                      | club_title           | club_dept                       |
++----------+--------------------------------+----------------------+---------------------------------+
+| Jack     | Media, Culture & Communication | Comm Club            | Media, Culture & Communications |
+| Jill     | Economics                      | Economics Club       | Economics                       |
+| John     | Computer Science               | NYU Programming Team | Computer Science                |
+| Josh     | Film                           | Delta Kappa Alpha    | Tisch                           |
+| Judy     | Math                           | WinC                 | Computer Science                |
+| Julz     | Computer Science               | WinC                 | Computer Science                |
++----------+--------------------------------+----------------------+---------------------------------+
+
+
+
+
+
+
+

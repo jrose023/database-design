@@ -1,0 +1,39 @@
+Last login: Sat Dec  9 13:25:50 on ttys000
+JulesMac:~ jrose$ ssh jar892@i6.cims.nyu.edu
+Password: 
+Last login: Sat Dec  9 13:21:25 2017 from cpe-72-229-120-134.nyc.res.rr.com
+You are using 0% of your 2.0G quota for /home/jar892.
+You are using 7% of your 1.0G quota for /web/jar892.
+[jar892@i6 ~]$ module load mongodb-3.2.0
+[jar892@i6 ~]$ mongo jar892 --host class-mongodb.cims.nyu.edu -u jar892 -p JqCuxWpr
+MongoDB shell version: 3.2.0
+connecting to: class-mongodb.cims.nyu.edu:27017/jar892
+> db.zipcodes.find({"state":"PA"}, {_id:0}).count()
+1458
+> db.zipcodes.find({"state":"GA","pop":{$gt:0}},{_id:1,"city":1,"pop":1}).sort({"pop":1}).limit(5)
+{ "_id" : "30346", "city" : "ATLANTA", "pop" : 18 }
+{ "_id" : "30148", "city" : "MARBLE HILL", "pop" : 98 }
+{ "_id" : "31743", "city" : "DE SOTO", "pop" : 112 }
+{ "_id" : "31327", "city" : "SAPELO ISLAND", "pop" : 120 }
+{ "_id" : "31066", "city" : "MUSELLA", "pop" : 121 }
+> db.zipcodes.find({"city":"BRONX",},{_id:1,"city":1,"pop":1}).sort({"pop":1}).limit(3)
+{ "_id" : "10464", "city" : "BRONX", "pop" : 4113 }
+{ "_id" : "10470", "city" : "BRONX", "pop" : 13254 }
+{ "_id" : "10474", "city" : "BRONX", "pop" : 22823 }
+> db.zipcodes.find({"state":{$nin:["HI","AK","PR"]}}).count()
+29078
+> db.zipcodes.find({"state":{$in:["NY","CT","NJ"]}}).count()
+2398
+> db.zipcodes.find({"state":{$in:["OH","PA","MI","WV","IN","IL"]}}).count()
+5910
+> db.zipcodes.find({"pop":{$gt:0}},{_id:1,"city":1,"state":1,"pop":1}).sort({"pop":-1}).limit(5).pretty()
+{ "_id" : "60623", "city" : "CHICAGO", "pop" : 112047, "state" : "IL" }
+{ "_id" : "11226", "city" : "BROOKLYN", "pop" : 111396, "state" : "NY" }
+{ "_id" : "10021", "city" : "NEW YORK", "pop" : 106564, "state" : "NY" }
+{ "_id" : "10025", "city" : "NEW YORK", "pop" : 100027, "state" : "NY" }
+{ "_id" : "90201", "city" : "BELL GARDENS", "pop" : 99568, "state" : "CA" }
+> 
+
+
+
+
